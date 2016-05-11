@@ -3,7 +3,11 @@ extern crate rand;
 use std::env;
 use std::process;
 use std::io;
-use std::io::Write;
+
+use std::error::Error;
+use std::io::prelude::*;
+use std::fs::File;
+use std::path::Path;
 
 use rand::Rng;
 
@@ -21,7 +25,6 @@ fn print_usage_and_exit() -> ! {
 
 fn get_random_living(pct: i32) -> bool {
     let num : i32 = rand::thread_rng().gen_range(1, 100);
-    println!("Num is {}", num);
     num <= pct
 }
 
@@ -41,6 +44,47 @@ fn print_world(w: &mut [[i32; 20]; 20]) {
     
 }
 
+fn save_world(w: &mut [[i32; 20]; 20]) {
+
+    let path = Path::new("saved_world.txt");
+    let display = path.display();
+
+    let mut file = match File::create(&path) {
+        Err(why) => panic!("couldn't create {}: {}",
+                           display,
+                           Error::description(&why)),
+        Ok(file) => file,
+    };
+
+
+    for j in 0..w.len() {
+        let inner = &w[j];
+        for k in 0..inner.len() {
+            let to_write = match inner[k] {
+                0 => ".",
+                _ => "X",
+            };
+            match file.write_all(to_write.as_bytes()) {
+                Err(why) => {
+                    panic!("couldn't write to {}: {}", display,
+                           Error::description(&why))
+                },
+                Ok(_) => (),
+            };
+
+        }
+        match file.write_all("\n".as_bytes()) {
+            Err(why) => {
+                panic!("couldn't write to {}: {}", display,
+                       Error::description(&why))
+            },
+            Ok(_) => (),
+        };
+
+    }
+    println!("Successfully saved world to {}", display);
+    
+}
 
 
 fn iterate_world(w: &mut [[i32; 20]; 20]) {
@@ -112,7 +156,7 @@ fn main() {
     
     while cont {
 
-        print!("[N]ext, [Q]uit > ");
+        print!("[N]ext, [S]ave, [Q]uit > ");
         io::stdout().flush().ok().expect("Could not flush stdout");
         
         io::stdin().read_line(&mut choice);
@@ -120,11 +164,14 @@ fn main() {
         match choice.trim() {
             "Q" | "q" => cont = false,
             "N" | "n" => cont = true,
+            "S" | "s" => {
+                save_world(world);
+                cont = true
+            },
             _         => println!("Please choose a valid option!"),
         }
 
         if cont {
-            // println!("Grid 0 0 is {} ", grid[0][0]);
             iterate_world(world);
             print_world(world);
             choice.clear();
