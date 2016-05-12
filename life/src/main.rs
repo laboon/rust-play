@@ -9,10 +9,16 @@ use std::io::prelude::*;
 use std::fs::File;
 use std::path::Path;
 
+use std::num::ParseIntError;
+
 use rand::Rng;
 
+type World = [[i32; 20]; 20];
 
-fn count_neighbors(x: i32, y: i32) -> i32 {
+// Given some world and a location in it (x, y coords), return the
+// number of living neighbors
+
+fn count_neighbors(_w: &World, _x: i32, _y: i32) -> i32 {
     1
 }
 
@@ -24,19 +30,14 @@ fn print_usage_and_exit() -> ! {
 }
 
 fn get_random_living(pct: i32) -> bool {
-    let num : i32 = rand::thread_rng().gen_range(1, 100);
+    let num = rand::thread_rng().gen_range(0, 100);
     num <= pct
 }
 
-fn print_world(w: &mut [[i32; 20]; 20]) {
-    for j in 0..w.len() {
-        let inner = &w[j];
-        for k in 0..inner.len() {
-            if inner[k] == 0 {
-                print!(".");
-            } else {
-                print!("X");
-            }
+fn print_world(w: &World) {
+    for inner in w {
+        for &elem in inner {
+            print!("{}", if elem == 0 { "." } else { "X" });
         }
         println!("");
     }
@@ -44,7 +45,7 @@ fn print_world(w: &mut [[i32; 20]; 20]) {
     
 }
 
-fn save_world(w: &mut [[i32; 20]; 20]) {
+fn save_world(w: &World) {
 
     let path = Path::new("saved_world.txt");
     let display = path.display();
@@ -52,7 +53,7 @@ fn save_world(w: &mut [[i32; 20]; 20]) {
     let mut file = match File::create(&path) {
         Err(why) => panic!("couldn't create {}: {}",
                            display,
-                           Error::description(&why)),
+                           why.description()),
         Ok(file) => file,
     };
 
@@ -86,18 +87,53 @@ fn save_world(w: &mut [[i32; 20]; 20]) {
     
 }
 
+// Check if cell should be alive or dead next iteration
 
-fn iterate_world(w: &mut [[i32; 20]; 20]) {
+fn alive(w: &World, x: i32, y: i32) -> i32 {
+    // If already alive, and has 2 or 3 neighbors, alive, else dead
+    // If dead, and has exactly 3 neighbors, alive, else dead
+    let num_neighbors = count_neighbors(w, x, y);
+
+    // [x][y] doesn't work.. how do I access individual elements?
+    
+    if w[0][0] == 0 {
+        // currently dead
+        return match num_neighbors {
+            3 => 1,
+            _ => 0,
+        };
+    } else {
+        // currently alive
+        return match num_neighbors {
+            2 | 3 => 1,
+            _     => 0,
+        };
+    }
+}
+
+// Run one iteration of the game.
+// Go through each element
+
+fn iterate_world(w: World) -> World {
+
+    let mut new_world = [[0; 20]; 20];
+    for j in 0..w.len() {
+        for k in 0..w[0].len() {
+            new_world[j][k] = alive(&w, j as i32, k as i32);
+        }
+    }
+    new_world
     
 }
 
-fn generate_world(w: &mut [[i32; 20]; 20], pct: i32) {
+fn generate_world(w: &mut World, pct: i32) {
 
+    // lots of nested for loops, could I use some sort of map instead?
+    
     for j in 0..w.len() {
         let mut inner = &mut w[j];
         for k in 0..inner.len() {
-            let living : bool = get_random_living(pct);
-            if living {
+            if get_random_living(pct) {
                 inner[k] = 1;
             } else {
                 // leave at 0
@@ -106,31 +142,26 @@ fn generate_world(w: &mut [[i32; 20]; 20], pct: i32) {
     }
 }
 
-fn read_args(args: Vec<String>) -> (i32, i32, i32) {
+fn read_args(args: Vec<String>) -> Result<(i32, i32, i32), ParseIntError> {
 
-    let x = &args[1].parse::<i32>().unwrap();
-    let y = &args[2].parse::<i32>().unwrap();
-    let pct = &args[3].parse::<i32>().unwrap();
+    let x = try!(args[1].parse());
+    let y = try!(args[2].parse());
+    let pct = try!(args[3].parse());
 
-    
-    // TODO: Figure error-handling out
-    // let x_opt = &args[1].parse::<i32>();
-    // let x = match x_opt {
-    //     Err(e)   => -1,
-    //     Ok(n)    => n,
-    // };
-
-    // TODO: Why do I need pointers here?  Because of &args???
-    
-    (*x, *y, *pct)
+    Ok((x, y, pct))
 }
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+
+    // Get arguments from command line.
+    // Currently ignoring the first two because I don't want to deal with
+    // crazy dynamic arrays in Rust right now.
+    
+    let args: Vec<_> = env::args().collect();
     if args.len() != 4 {
         print_usage_and_exit();
     }
-    let (x, y, pct) = read_args(args);
+    let (_x, _y, pct) = read_args(args).expect("Could not read args!");
 
     println!("IGNORING ARGS TO MAKE A FIXED-SIZE ARRAY!");
     
@@ -138,45 +169,63 @@ fn main() {
 
     
     
-    // There has to be a better way to do this
+    // There has to be a better way to do dynamic arrays!
     // from http://stackoverflow.com/questions/13212212/creating-two-dimensional-arrays-in-rust
     // let x_usize = x as usize;
     // let y_usize = y as usize;
     // let mut grid_raw = vec![0; x_usize * y_usize];
     // let mut grid_base: Vec<i32> = grid_raw.as_mut_slice().chunks_mut(x_usize).collect();
     // let mut grid: &mut [&mut [_]] = grid_base.as_mut_slice();
-    
+
+
+    // The choice coming in from the user each turn
     let mut choice = String::new();
 
+    // Whether or not to continue running
     let mut cont = true;
 
-    let mut world = &mut [[0; 20]; 20];
-    generate_world(world, pct);
-    print_world(world);
+    // The (20 x 20) fixed array which makes up the world
+    let mut world = [[0; 20]; 20];
+
+    // Generate the world (random) and print it out to start
+    generate_world(&mut world, pct);
+    print_world(&world);
     
     while cont {
 
+        // Get user's choice of what to do.  This should definitely go 
+        // into a function.
         print!("[N]ext, [S]ave, [Q]uit > ");
-        io::stdout().flush().ok().expect("Could not flush stdout");
-        
-        io::stdin().read_line(&mut choice);
+        io::stdout().flush().expect("Could not flush stdout");
+        io::stdin().read_line(&mut choice).expect("Could not read line");
         
         match choice.trim() {
-            "Q" | "q" => cont = false,
-            "N" | "n" => cont = true,
-            "S" | "s" => {
-                save_world(world);
+            "Q" | "q" => cont = false, // Quit
+            "N" | "n" => cont = true,  // Next iteration
+            "S" | "s" => {             // Save to file
+                save_world(&world);
+                // don't iterate!
                 cont = true
             },
-            _         => println!("Please choose a valid option!"),
+            _         => println!("Please choose a valid option!"), // Try again!
         }
 
+        // If user is continuing, iterate the world one iteration and print it out
+        // Then clear the choice string so it can re-used.  Otherwise user input
+        // is just appended.  If we are not continuing, the program is exiting, so
+        // no need to clear it out.
+        
         if cont {
-            iterate_world(world);
-            print_world(world);
+            world = iterate_world(world);
+            print_world(&world);
             choice.clear();
 
         }
         
     }
+}
+
+#[test]
+fn whatever_test() {
+    assert_eq!(1, 3);
 }
