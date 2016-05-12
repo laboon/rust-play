@@ -13,14 +13,40 @@ use std::num::ParseIntError;
 
 use rand::Rng;
 
+// A world is a 20x20 array
+
 type World = [[i32; 20]; 20];
 
 // Given some world and a location in it (x, y coords), return the
 // number of living neighbors
 
-fn count_neighbors(_w: &World, _x: i32, _y: i32) -> i32 {
-    1
+fn count_neighbors(w: &World, x: i32, y: i32) -> i32 {
+
+    let size : i32 = w.len() as i32;
+    let mut left_x = (x - 1) % size;
+    let mut right_x = (x + 1) % size;
+    let mut up_y = (y - 1) % size;
+    let mut down_y = (y + 1) % size;
+
+    if left_x == -1 { left_x = size - 1; }
+    if right_x == -1 { right_x = size - 1; }
+    if up_y == -1 { up_y = size - 1; }
+    if down_y == -1 { down_y = size - 1; }
+    
+    let mut num_neighbors = 0;
+
+    if w[left_x as usize][up_y as usize] != 0    { num_neighbors += 1; }
+    if w[left_x as usize][down_y as usize] != 0  { num_neighbors += 1; }
+    if w[left_x as usize][y as usize] != 0       { num_neighbors += 1; }
+    if w[right_x as usize][up_y as usize] != 0   { num_neighbors += 1; }
+    if w[right_x as usize][down_y as usize] != 0 { num_neighbors += 1; }
+    if w[right_x as usize][y as usize] != 0      { num_neighbors += 1; }
+    if w[x as usize][up_y as usize] != 0         { num_neighbors += 1; }
+    if w[x as usize][down_y as usize] != 0       { num_neighbors += 1; }
+
+    num_neighbors
 }
+
 
 fn print_usage_and_exit() -> ! {
     println!("Usage: life <x_size> <y_size> <percent_alive>");
@@ -94,8 +120,6 @@ fn alive(w: &World, x: i32, y: i32) -> i32 {
     // If dead, and has exactly 3 neighbors, alive, else dead
     let num_neighbors = count_neighbors(w, x, y);
 
-    // [x][y] doesn't work.. how do I access individual elements?
-    
     if w[0][0] == 0 {
         // currently dead
         return match num_neighbors {
@@ -128,8 +152,6 @@ fn iterate_world(w: World) -> World {
 
 fn generate_world(w: &mut World, pct: i32) {
 
-    // lots of nested for loops, could I use some sort of map instead?
-    
     for j in 0..w.len() {
         let mut inner = &mut w[j];
         for k in 0..inner.len() {
@@ -163,8 +185,6 @@ fn main() {
     }
     let (_x, _y, pct) = read_args(args).expect("Could not read args!");
 
-    println!("IGNORING ARGS TO MAKE A FIXED-SIZE ARRAY!");
-    
     println!("Creating a {} x {} array, {}% alive", 20, 20, pct);
 
     
