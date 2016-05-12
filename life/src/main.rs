@@ -120,7 +120,7 @@ fn alive(w: &World, x: i32, y: i32) -> i32 {
     // If dead, and has exactly 3 neighbors, alive, else dead
     let num_neighbors = count_neighbors(w, x, y);
 
-    if w[0][0] == 0 {
+    if w[x as usize][y as usize] == 0 {
         // currently dead
         return match num_neighbors {
             3 => 1,
@@ -245,7 +245,37 @@ fn main() {
     }
 }
 
+
+
 #[test]
-fn whatever_test() {
-    assert_eq!(1, 3);
+fn count_neighbors_dead_world() {
+    let test_world = [[0; 20]; 20]; 
+    let n = count_neighbors(&test_world, 1, 1);
+    
+    assert_eq!(0, n);
 }
+
+#[test]
+fn count_neighbors_one_alive() {
+    let mut test_world = [[0; 20]; 20];
+    test_world[0][0] = 1;
+    let n = count_neighbors(&test_world, 1, 1);
+    
+    assert_eq!(1, n);
+}
+
+#[test]
+fn count_neighbors_all_alive() {
+    let test_world = [[1; 20]; 20];
+    let n = count_neighbors(&test_world, 1, 1);
+    
+    assert_eq!(8, n);
+}
+
+// #[test]
+// fn alive() {
+//     let test_world = [[1; 20]; 20];
+//     let n = count_neighbors(&test_world, 1, 1);
+    
+//     assert_eq!(8, n);
+// }
