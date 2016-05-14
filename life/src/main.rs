@@ -47,7 +47,6 @@ fn count_neighbors(w: &World, x: i32, y: i32) -> i32 {
     num_neighbors
 }
 
-
 fn print_usage_and_exit() -> ! {
     println!("Usage: life <x_size> <y_size> <percent_alive>");
     println!("All must be positive integers.");
@@ -239,13 +238,11 @@ fn main() {
             world = iterate_world(world);
             print_world(&world);
             choice.clear();
-
         }
-        
     }
 }
 
-
+// TESTS
 
 #[test]
 fn count_neighbors_dead_world() {
