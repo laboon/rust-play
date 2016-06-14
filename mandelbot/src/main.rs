@@ -56,12 +56,12 @@ fn print_usage_and_exit() -> ! {
 
 fn generate_matrix(x_min: i32, x_max: i32, y_min: i32, y_max: i32) -> [[Complex<i32>; 40]; 40] {
     // TODO: create a 2-d array of complex numbers
-    let mut matrix = [[Complex<i32>; 40]; 40];
-    // for j in 0..39 {
-    //     for k in 0..39 {
-    //         matrix[j][k] = Complex::new(0,0);
-    //     }
-    // }
+    let mut matrix = [[Complex {re: 0, im: 0}; 40]; 40];
+    for j in 0..39 {
+        for k in 0..39 {
+            matrix[j][k] = Complex::new(j as i32, k as i32);
+        }
+    }
     matrix
 
 }
