@@ -1,0 +1,7 @@
+[package]
+name = "mandelbot"
+version = "0.1.0"
+authors = ["laboon <laboon@gmail.com>"]
+
+[dependencies]
+num = "0.1.32"
