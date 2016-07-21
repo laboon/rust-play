@@ -1,0 +1,1 @@
+type Rank = i32;
