@@ -22,6 +22,14 @@ pub struct Board {
 }
 
 impl Board {
+
+    // pub convert_to_array_spot() -> (i32, i32) {
+    // }
+
+    pub fn make_move(&mut self, move_string: String) {
+        println!("Moving: {}", move_string);
+    }
+    
     pub fn setup(&mut self) {
         println!("Setting up a new game");
         // Set up black pieces
