@@ -23,8 +23,22 @@ pub struct Board {
 
 impl Board {
 
-    // pub convert_to_array_spot() -> (i32, i32) {
-    // }
+    pub fn convert_to_array_spot(r: rank::Rank, f: file::File) -> (i32, i32) {
+        let x = 8 - r;
+        let mut y = -1;
+
+        match f {
+            file::File::a => y = 0,
+            file::File::b => y = 1,
+            file::File::c => y = 2,
+            file::File::d => y = 3,
+            file::File::e => y = 4,
+            file::File::f => y = 5,
+            file::File::g => y = 6,
+            file::File::h => y = 7
+        }
+        return (x, y)
+    }
 
     pub fn make_move(&mut self, move_string: String) {
         println!("Moving: {}", move_string);

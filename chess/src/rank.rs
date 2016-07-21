@@ -1,1 +1,1 @@
-type Rank = i32;
+pub type Rank = i32;

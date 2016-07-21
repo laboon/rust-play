@@ -72,3 +72,27 @@ pub fn get_display(piece: Piece) -> char {
     }
 }
 
+pub fn is_white_piece(piece: Piece) -> bool {
+    match piece {
+        Piece::White_Pawn   |
+        Piece::White_Knight |
+        Piece::White_Bishop |
+        Piece::White_Rook   |
+        Piece::White_Queen  |
+        Piece::White_King   => return true,
+        _   => return false
+    }
+}
+
+pub fn is_black_piece(piece: Piece) -> bool {
+    match piece {
+        Piece::Black_Pawn   |
+        Piece::Black_Knight |
+        Piece::Black_Bishop |
+        Piece::Black_Rook   |
+        Piece::Black_Queen  |
+        Piece::Black_King   => return true,
+        _   => return false
+    }
+}
+
