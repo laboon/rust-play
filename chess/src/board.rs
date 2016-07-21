@@ -52,23 +52,23 @@ impl Board {
         self.squares[0][4] = pieces::convert_piece_to_i32(pieces::Piece::Black_King);
 
         // Set up white pieces
-                // Pawns
+        // Pawns
         for j in 0..8 {
             self.squares[6][j] = pieces::convert_piece_to_i32(pieces::Piece::White_Pawn);
         }
         // Rooks
-        self.squares[7][0] = pieces::convert_piece_to_i32(pieces::Piece::Black_Rook);
-        self.squares[7][7] = pieces::convert_piece_to_i32(pieces::Piece::Black_Rook);
+        self.squares[7][0] = pieces::convert_piece_to_i32(pieces::Piece::White_Rook);
+        self.squares[7][7] = pieces::convert_piece_to_i32(pieces::Piece::White_Rook);
         // Knights
-        self.squares[7][1] = pieces::convert_piece_to_i32(pieces::Piece::Black_Knight);
-        self.squares[7][6] = pieces::convert_piece_to_i32(pieces::Piece::Black_Knight);
+        self.squares[7][1] = pieces::convert_piece_to_i32(pieces::Piece::White_Knight);
+        self.squares[7][6] = pieces::convert_piece_to_i32(pieces::Piece::White_Knight);
         // Bishops
-        self.squares[7][2] = pieces::convert_piece_to_i32(pieces::Piece::Black_Bishop);
-        self.squares[7][5] = pieces::convert_piece_to_i32(pieces::Piece::Black_Bishop);
+        self.squares[7][2] = pieces::convert_piece_to_i32(pieces::Piece::White_Bishop);
+        self.squares[7][5] = pieces::convert_piece_to_i32(pieces::Piece::White_Bishop);
         // Queen
-        self.squares[7][3] = pieces::convert_piece_to_i32(pieces::Piece::Black_Queen);        
+        self.squares[7][3] = pieces::convert_piece_to_i32(pieces::Piece::White_Queen);        
         // King
-        self.squares[7][4] = pieces::convert_piece_to_i32(pieces::Piece::Black_King);
+        self.squares[7][4] = pieces::convert_piece_to_i32(pieces::Piece::White_King);
 
     }
 
