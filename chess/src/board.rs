@@ -23,9 +23,10 @@ pub struct Board {
 
 impl Board {
 
+    #[allow(dead_code)]
     pub fn convert_to_array_spot(r: rank::Rank, f: file::File) -> (i32, i32) {
         let x = 8 - r;
-        let mut y = -1;
+        let y;
 
         match f {
             file::File::a => y = 0,
@@ -49,40 +50,40 @@ impl Board {
         // Set up black pieces
         // Pawns
         for j in 0..8 {
-            self.squares[1][j] = pieces::convert_piece_to_i32(pieces::Piece::Black_Pawn);
+            self.squares[1][j] = pieces::convert_piece_to_i32(pieces::Piece::BlackPawn);
         }
         // Rooks
-        self.squares[0][0] = pieces::convert_piece_to_i32(pieces::Piece::Black_Rook);
-        self.squares[0][7] = pieces::convert_piece_to_i32(pieces::Piece::Black_Rook);
+        self.squares[0][0] = pieces::convert_piece_to_i32(pieces::Piece::BlackRook);
+        self.squares[0][7] = pieces::convert_piece_to_i32(pieces::Piece::BlackRook);
         // Knights
-        self.squares[0][1] = pieces::convert_piece_to_i32(pieces::Piece::Black_Knight);
-        self.squares[0][6] = pieces::convert_piece_to_i32(pieces::Piece::Black_Knight);
+        self.squares[0][1] = pieces::convert_piece_to_i32(pieces::Piece::BlackKnight);
+        self.squares[0][6] = pieces::convert_piece_to_i32(pieces::Piece::BlackKnight);
         // Bishops
-        self.squares[0][2] = pieces::convert_piece_to_i32(pieces::Piece::Black_Bishop);
-        self.squares[0][5] = pieces::convert_piece_to_i32(pieces::Piece::Black_Bishop);
+        self.squares[0][2] = pieces::convert_piece_to_i32(pieces::Piece::BlackBishop);
+        self.squares[0][5] = pieces::convert_piece_to_i32(pieces::Piece::BlackBishop);
         // Queen
-        self.squares[0][3] = pieces::convert_piece_to_i32(pieces::Piece::Black_Queen);        
+        self.squares[0][3] = pieces::convert_piece_to_i32(pieces::Piece::BlackQueen);        
         // King
-        self.squares[0][4] = pieces::convert_piece_to_i32(pieces::Piece::Black_King);
+        self.squares[0][4] = pieces::convert_piece_to_i32(pieces::Piece::BlackKing);
 
         // Set up white pieces
         // Pawns
         for j in 0..8 {
-            self.squares[6][j] = pieces::convert_piece_to_i32(pieces::Piece::White_Pawn);
+            self.squares[6][j] = pieces::convert_piece_to_i32(pieces::Piece::WhitePawn);
         }
         // Rooks
-        self.squares[7][0] = pieces::convert_piece_to_i32(pieces::Piece::White_Rook);
-        self.squares[7][7] = pieces::convert_piece_to_i32(pieces::Piece::White_Rook);
+        self.squares[7][0] = pieces::convert_piece_to_i32(pieces::Piece::WhiteRook);
+        self.squares[7][7] = pieces::convert_piece_to_i32(pieces::Piece::WhiteRook);
         // Knights
-        self.squares[7][1] = pieces::convert_piece_to_i32(pieces::Piece::White_Knight);
-        self.squares[7][6] = pieces::convert_piece_to_i32(pieces::Piece::White_Knight);
+        self.squares[7][1] = pieces::convert_piece_to_i32(pieces::Piece::WhiteKnight);
+        self.squares[7][6] = pieces::convert_piece_to_i32(pieces::Piece::WhiteKnight);
         // Bishops
-        self.squares[7][2] = pieces::convert_piece_to_i32(pieces::Piece::White_Bishop);
-        self.squares[7][5] = pieces::convert_piece_to_i32(pieces::Piece::White_Bishop);
+        self.squares[7][2] = pieces::convert_piece_to_i32(pieces::Piece::WhiteBishop);
+        self.squares[7][5] = pieces::convert_piece_to_i32(pieces::Piece::WhiteBishop);
         // Queen
-        self.squares[7][3] = pieces::convert_piece_to_i32(pieces::Piece::White_Queen);        
+        self.squares[7][3] = pieces::convert_piece_to_i32(pieces::Piece::WhiteQueen);        
         // King
-        self.squares[7][4] = pieces::convert_piece_to_i32(pieces::Piece::White_King);
+        self.squares[7][4] = pieces::convert_piece_to_i32(pieces::Piece::WhiteKing);
 
     }
 
@@ -98,3 +99,17 @@ impl Board {
 
 }
 
+// TESTS
+
+// #[test]
+// fn convert_arr_a1() {
+//     let mut t = turn::Turn::White;
+//     let mut s = [[0i32; 8]; 8];
+//     let mut b = board::Board {
+//         squares: s,
+//         turn: t };
+//     let r = 1;
+//     let f = file::File::a;
+//     let (x, y) = b.convert_arr_a1(r, f);
+
+// }

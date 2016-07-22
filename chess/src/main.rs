@@ -16,6 +16,7 @@ fn get_move_from_console() -> String {
     return choice;
 }
 
+#[allow(unused_assignments, unused_mut)]
 fn main() {
     let mut t = turn::Turn::White;
     let mut s = [[0i32; 8]; 8];
