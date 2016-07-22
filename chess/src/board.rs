@@ -23,6 +23,14 @@ pub struct Board {
 
 impl Board {
 
+    pub fn is_move_legal(t: turn::Turn, begin_x: i32, begin_y: i32, end_x: i32, end_y: i32) -> bool {
+        true
+    }
+
+    pub fn is_players_piece(t: turn::Turn, x: i32, y: i32) -> bool{
+        true
+    }
+    
     #[allow(dead_code)]
     pub fn convert_to_array_spot(r: rank::Rank, f: file::File) -> (i32, i32) {
         let x = 8 - r;
@@ -40,9 +48,19 @@ impl Board {
         }
         return (x, y)
     }
-
+    
     pub fn make_move(&mut self, move_string: String) {
+        // TODO - accept actual algebraic notation
+        // (e.g. a3 for pawn to a3, O-O, b8=Q, etc)
+        // For right now, use simplified algebraic
+        // (e.g. a2a3, h1h8, etc)
         println!("Moving: {}", move_string);
+        if is_valid(&move_string) {
+           println!("Valid move entry!") 
+        } else {
+            println!("Use simplified algebraic!");
+            println!("e.g. a2a3 to move from a2 to a3");
+        }
     }
     
     pub fn setup(&mut self) {
@@ -99,7 +117,42 @@ impl Board {
 
 }
 
+pub fn is_in_bounds(x: i32, y:i32) -> bool {
+    x >=0 && x <= 7 && y >= 0 && y <= 7
+}
+
+pub fn is_valid(s: &String) -> bool {
+    true
+}
+
 // TESTS
+
+#[test]
+fn is_in_bounds_0_0() {
+    assert_eq!(is_in_bounds(0, 0), true);
+}
+
+#[test]
+fn is_in_bounds_7_7() {
+    assert_eq!(is_in_bounds(7, 7), true);
+}
+
+#[test]
+fn is_in_bounds_9_9() {
+    assert_eq!(is_in_bounds(9, 9), false);
+}
+
+#[test]
+fn is_in_bounds_n1_n1() {
+    assert_eq!(is_in_bounds(-1, -1), false);
+}
+
+#[test]
+fn is_in_bounds_5_n1() {
+    assert_eq!(is_in_bounds(5, -1), false);
+}
+
+
 
 // #[test]
 // fn convert_arr_a1() {

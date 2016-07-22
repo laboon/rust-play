@@ -38,7 +38,7 @@ pub fn convert_i32_to_piece(val: i32) -> Piece {
 
 pub fn convert_piece_to_i32(p: Piece) -> i32 {
     match p {
-        Piece::Empty        => return 0,
+        Piece::Empty       => return 0,
         Piece::WhitePawn   => return 1,
         Piece::WhiteKnight => return 2,
         Piece::WhiteBishop => return 3,
@@ -56,7 +56,7 @@ pub fn convert_piece_to_i32(p: Piece) -> i32 {
 
 pub fn get_display(piece: Piece) -> char {
     match piece {
-        Piece::Empty        => return '.',
+        Piece::Empty       => return '.',
         Piece::WhitePawn   => return 'P',
         Piece::WhiteKnight => return 'N',
         Piece::WhiteBishop => return 'B',
