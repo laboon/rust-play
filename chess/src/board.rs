@@ -23,10 +23,12 @@ pub struct Board {
 
 impl Board {
 
+    #[allow(dead_code, unused_variables)]
     pub fn is_move_legal(t: turn::Turn, begin_x: i32, begin_y: i32, end_x: i32, end_y: i32) -> bool {
         true
     }
-
+    
+    #[allow(dead_code, unused_variables)]
     pub fn is_players_piece(t: turn::Turn, x: i32, y: i32) -> bool{
         true
     }
@@ -116,11 +118,13 @@ impl Board {
     }
 
 }
+#[allow(dead_code)]
 
 pub fn is_in_bounds(x: i32, y:i32) -> bool {
     x >=0 && x <= 7 && y >= 0 && y <= 7
 }
 
+#[allow(unused_variables)]
 pub fn is_valid(s: &String) -> bool {
     true
 }

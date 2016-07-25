@@ -8,6 +8,7 @@ mod rank;
 mod file;
 
 fn get_move_from_console() -> String {
+    
     print!(" > ");
     let mut choice = String::new();
 
