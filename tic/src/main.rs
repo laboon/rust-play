@@ -71,8 +71,6 @@ fn print_board(b: &Board) {
         }
         println!("");
     }
-                
-            
 }
 
 // Checks to see who won (or if tied) based on a board.
@@ -108,8 +106,6 @@ fn check_for_win(b: &Board) -> GameStatus {
     } else {
         return GameStatus::Tie;
     }
-    
-    
 }
 
 // Pick a random square and return it as a tuple
@@ -138,7 +134,6 @@ fn take_turn(p: &Player, mut b: &mut Board) {
             b[x][y] = Square::O;
         }
     }
-
 }
 
 fn main() {
@@ -165,7 +160,6 @@ fn main() {
         Ok(n) => name2 = String::from(n.trim()),
         Err(_) => name2 = String::from("DEFAULT2")
     }
-
     
     println!("Player 1 Name {}!", name1);
     println!("Player 2 Name {}!", name2);
@@ -201,16 +195,14 @@ fn main() {
         }
 
         // Print out the board
-        
         print_board(&b);
-
     }
 
     // Afterwards, see who won!
     // Note the beauty of matching - although ties are rare, they
     // CAN happen, and we want to ensure that we capture that
     // possibility.
-    // This can't be done with a traditional switch or if statement
+    // This can't be done with a traditional switch or if statement!
     
     match check_for_win(&b) {
             GameStatus::Player1Win => println!("{} won! {} lost!", name1, name2),
