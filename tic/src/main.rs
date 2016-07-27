@@ -1,3 +1,6 @@
+// Tic-Tac-Schmoe
+// See CS1632_Summer repository for rules
+
 extern crate rand;
 
 // Use for I/O
