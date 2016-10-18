@@ -207,7 +207,7 @@ fn main() {
     match check_for_win(&b) {
             GameStatus::Player1Win => println!("{} won! {} lost!", name1, name2),
             GameStatus::Player2Win => println!("{} won! {} lost!", name2, name1),
-            GameStatus::Tie => println!("{} and {} tie!", name1, name2),
+            // GameStatus::Tie => println!("{} and {} tie!", name1, name2),
     }
     
 }
