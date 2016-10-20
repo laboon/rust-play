@@ -28,11 +28,11 @@ fn fabs(x: f32) -> f32 {
 fn sqrt(x: f32) -> f32 {
     let threshold = 0.0000001;
     let val = fabs(x);
-    let mut low: f32 = 0.0;
-    let mut high: f32 = val;
-    let mut mid: f32 = val;
-    let mut old: f32 = -1.0;
-    let mut midsqr: f32;
+    let mut low = 0.0f32;
+    let mut high = val;
+    let mut mid = val;
+    let mut old = -1.0f32;
+    let mut midsqr;
     
     while fabs(old - mid) > threshold {
         old = mid;
@@ -54,7 +54,7 @@ fn sqrt(x: f32) -> f32 {
 // Selection sort function - given a Vector of i32's, will
 // sort in ascending order if asc = true, else descending
 
-fn selection_sort_vec(mut v: &mut Vec<i32>, asc: bool) {
+fn selection_sort_vec(v: &mut Vec<i32>, asc: bool) {
     
     // if 0 or 1 elements, can just return
     if v.len() < 2 {
@@ -87,21 +87,11 @@ fn selection_sort_vec(mut v: &mut Vec<i32>, asc: bool) {
         }
         // println!("{} < {} ?", v[min_index], min_val);
         // println!("Swapping locs {} & {}", j, min_index);
-        swap_vec(&mut v, j, min_index)
+        v.swap(j, min_index)
 
     }
 }
 
-// Swap function - given a vector v and two locations (p1 & p2),
-// will swap the values in v[p1] and v[p2]
-
-fn swap_vec(v: &mut Vec<i32>, p1: usize, p2: usize) {
-    if p1 != p2 {
-        let tmp: i32 = v[p1];
-        v[p1] = v[p2];
-        v[p2] = tmp;
-    }
-}
 
 // Divides two f32's, and wraps the return value in an Option
 
@@ -121,7 +111,7 @@ fn safe_divide(n: f32, d: f32) -> Option<f32> {
 fn main() {
     let xs: [f32; 10] = [1.0, 2.0, 3.0, 4.0, 5.0,
     6.0, 7.0, 8.0, 9.0, 10.0];
-    let mut res: f32;
+    let mut res;
     for x in &xs {
         res = sqrt(*x);
         println!("sqrt({}) = {}", x, res);
@@ -341,6 +331,7 @@ fn test_safe_divide_nonzero_denom() {
 
 #[test]
 fn test_selection_sort_asc_last_element() {
+    // These muts in the test fn signatures *are* needed and are fine since you're taking ownership of v
     fn prop_last_element_not_smaller(mut v: Vec<i32>) -> TestResult {
         if v.len() < 2 {
             TestResult::discard()
@@ -381,9 +372,9 @@ fn test_selection_sort_idempotent() {
 
     fn prop_idempotent(mut v: Vec<i32>) -> bool {
         selection_sort_vec(&mut v, true);
-        let mut once: Vec<i32> = v.clone();
-        selection_sort_vec(&mut once, true);
-        let twice: Vec<i32> = once.clone();;
+        let mut once = v.clone();
+        let mut twice = once.clone();
+        selection_sort_vec(&mut twice, true);
         
         for j in 0..v.len() {
             if once[j] != twice[j] {
