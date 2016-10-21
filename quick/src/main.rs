@@ -96,19 +96,18 @@ fn safe_divide(n: f32, d: f32) -> Option<f32> {
 //////////////////////////////////////////////////////////////////
 
 fn main() {
-
-    let d: Option<f32> = safe_divide(7.0, 22.0);
+    let d = safe_divide(7.0, 22.0);
     match d {
         Some(n) => println!("Finite number {}", n),
         None    => println!("INFINITY"),
     }
-    let q: i32 = abs(-7);
+
+    let q = abs(-7);
     println!("q is {}", q);
-    let xs: [f32; 10] = [1.0, 2.0, 3.0, 4.0, 5.0,
-    6.0, 7.0, 8.0, 9.0, 10.0];
-    let mut res;
+
+    let xs = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
     for x in &xs {
-        res = sqrt(*x);
+        let res = sqrt(*x);
         println!("sqrt({}) = {}", x, res);
     }
 
@@ -118,7 +117,6 @@ fn main() {
 
     selection_sort_vec(&mut sort_vec, false);
     println!("{:?}", sort_vec);
-
 }
 
 
