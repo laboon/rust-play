@@ -266,11 +266,7 @@ fn test_sqrt_prop_lte_orig() {
 fn test_safe_divide_zero_denom() {
 
     fn prop_sd_div_0_none(x: f32) -> bool {
-        let r = safe_divide(x, 0.0);
-        match r {
-            Some(_) => false,
-            None => true
-        }
+        safe_divide(x, 0.0).is_none()
     }
     quickcheck(prop_sd_div_0_none as fn(f32) -> bool);
 }
@@ -302,11 +298,8 @@ fn test_safe_divide_nonzero_denom() {
         if y == 0.0 {
             TestResult::discard()
         } else {
-            let r = safe_divide(x, y);
-            match r {
-                Some(_) => TestResult::from_bool(true),
-                None => TestResult::from_bool(false)
-            }
+            let r = safe_divide(x, y).is_some();
+            TestResult::from_bool(r)
         }
     }
 
