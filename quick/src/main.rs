@@ -53,8 +53,8 @@ fn selection_sort_vec(v: &mut [i32], asc: bool) {
         return
     }
 
-    let mut min_index: usize;
-    let mut min_val: i32;
+    let mut min_index;
+    let mut min_val;
 
     for j in 0..v.len() {
         // println!("Checking position {}", j);
