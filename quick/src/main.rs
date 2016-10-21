@@ -347,13 +347,7 @@ fn test_selection_sort_idempotent() {
         let mut twice = once.clone();
         selection_sort_vec(&mut twice, true);
 
-        for j in 0..v.len() {
-            if once[j] != twice[j] {
-                return false
-            }
-        }
-        true
-
+        once == twice
     }
 
     quickcheck(prop_idempotent as fn(Vec<i32>) -> bool);
