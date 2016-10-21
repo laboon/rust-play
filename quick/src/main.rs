@@ -12,7 +12,7 @@ fn abs(x: i32) -> i32 {
 // Floating-point absolute value function
 
 fn fabs(x: f32) -> f32 {
-    if x >= 0.0 { x } else { x * -1.0 }
+    if x >= 0.0 { x } else { -x }
 }
 
 // Square root function
