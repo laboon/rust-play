@@ -46,7 +46,7 @@ fn sqrt(x: f32) -> f32 {
 // Selection sort function - given a Vector of i32's, will
 // sort in ascending order if asc = true, else descending
 
-fn selection_sort_vec(v: &mut Vec<i32>, asc: bool) {
+fn selection_sort_vec(v: &mut [i32], asc: bool) {
 
     // if 0 or 1 elements, can just return
     if v.len() < 2 {
@@ -372,7 +372,7 @@ fn test_selection_sort_idempotent() {
 
     fn prop_idempotent(mut v: Vec<i32>) -> bool {
         selection_sort_vec(&mut v, true);
-        let mut once = v.clone();
+        let once = v.clone();
         let mut twice = once.clone();
         selection_sort_vec(&mut twice, true);
 
