@@ -6,13 +6,13 @@ use quickcheck::TestResult;
 // Integer absolute value function
 
 fn abs(x: i32) -> i32 {
-    if x >= 0 { x } else { -x }
+    if x.is_negative() { -x } else { x }
 }
 
 // Floating-point absolute value function
 
 fn fabs(x: f32) -> f32 {
-    if x >= 0.0 { x } else { -x }
+    if x.is_sign_negative() { -x } else { x }
 }
 
 // Square root function
@@ -178,7 +178,7 @@ fn test_abs_never_negative() {
 fn test_fabs_no_neg() {
 
     fn prop_fabs_no_neg(x: f32) -> bool {
-        fabs(x) >= 0.0
+        !fabs(x).is_sign_negative()
     }
 
     quickcheck(prop_fabs_no_neg as fn(f32) -> bool);
@@ -217,7 +217,7 @@ fn test_fabs_idempotent() {
 fn test_sqrt_prop_no_neg() {
 
     fn prop_sqrt_no_neg(x: f32) -> bool {
-        sqrt(x) >= 0.0
+        !sqrt(x).is_sign_negative()
     }
 
     quickcheck(prop_sqrt_no_neg as fn(f32) -> bool);
