@@ -324,12 +324,9 @@ fn test_selection_sort_asc_last_element() {
             selection_sort_vec(&mut v, true);
             let last = v.len() - 1;
             let last_elem = v[last];
-            for j in 0..(last - 1) {
-                if v[j] > last_elem {
-                    return TestResult::from_bool(false);
-                }
-            }
-            TestResult::from_bool(true)
+
+            let all_smaller = v[0..(last-1)].iter().all(|&x| x <= last_elem);
+            TestResult::from_bool(all_smaller)
         }
     }
     quickcheck(prop_last_element_not_smaller as fn(Vec<i32>) -> TestResult);
