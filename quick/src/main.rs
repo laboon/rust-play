@@ -61,7 +61,6 @@ fn selection_sort_vec(v: &mut [i32], asc: bool) {
         min_index = j;
         min_val = v[j];
         for (k, &i) in v.iter().enumerate().skip((j + 1)) {
-        // for k in (j+1)..v.len() {
             // println!("\t{} - Comparing {} & {}", k, min_val, a[k]);
             if asc {
                 if i < min_val {
