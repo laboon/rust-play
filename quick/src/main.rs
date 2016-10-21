@@ -68,13 +68,10 @@ fn selection_sort_vec(v: &mut [i32], asc: bool) {
                     min_val = i;
                     min_index = k;
                 }
-            } else {
-                if v[k] > min_val {
-                    // println!("\tSetting min_val to {}", a[k]);
-                    min_val = i;
-                    min_index = k;
-                }
-
+            } else if v[k] > min_val {
+                // println!("\tSetting min_val to {}", a[k]);
+                min_val = i;
+                min_index = k;
             }
         }
         // println!("{} < {} ?", v[min_index], min_val);
