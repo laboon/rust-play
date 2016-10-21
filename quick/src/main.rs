@@ -335,20 +335,6 @@ fn test_selection_sort_asc_last_element() {
     quickcheck(prop_last_element_not_smaller as fn(Vec<i32>) -> TestResult);
 }
 
-// A sorted array should always have the same number of elements
-
-#[test]
-fn test_selection_sort_same_num_elements() {
-
-    fn prop_same_num_elems(mut v: Vec<i32>) -> bool {
-        let orig_num = v.len();
-        selection_sort_vec(&mut v, true);
-        orig_num == v.len()
-    }
-
-    quickcheck(prop_same_num_elems as fn(Vec<i32>) -> bool);
-}
-
 // Sorting an array twice should return the same result as doing it
 // once [idempotency]
 
