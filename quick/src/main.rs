@@ -322,10 +322,11 @@ fn test_selection_sort_asc_last_element() {
             TestResult::discard()
         } else {
             selection_sort_vec(&mut v, true);
-            let last = v.len() - 1;
-            let last_elem = v[last];
 
-            let all_smaller = v[0..(last-1)].iter().all(|&x| x <= last_elem);
+            let (head, tail) = v.split_at(v.len() - 1);
+            let last_elem = tail[0];
+
+            let all_smaller = head.iter().all(|&x| x <= last_elem);
             TestResult::from_bool(all_smaller)
         }
     }
