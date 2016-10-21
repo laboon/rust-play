@@ -20,10 +20,10 @@ fn fabs(x: f32) -> f32 {
 fn sqrt(x: f32) -> f32 {
     let threshold = 0.0000001;
     let val = fabs(x);
-    let mut low = 0.0f32;
+    let mut low = 0.0;
     let mut high = val;
     let mut mid = val;
-    let mut old = -1.0f32;
+    let mut old = -1.0;
     let mut midsqr;
 
     while fabs(old - mid) > threshold {
