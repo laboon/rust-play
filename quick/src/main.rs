@@ -105,9 +105,8 @@ fn main() {
     let q = abs(-7);
     println!("q is {}", q);
 
-    let xs = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
-    for x in &xs {
-        let res = sqrt(*x);
+    for x in 1..11 {
+        let res = sqrt(x as f32);
         println!("sqrt({}) = {}", x, res);
     }
 
