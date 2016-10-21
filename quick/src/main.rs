@@ -87,8 +87,7 @@ fn safe_divide(n: f32, d: f32) -> Option<f32> {
     if d == 0.0 {
         None
     } else {
-        let val = n / d;
-        Some(val)
+        Some(n / d)
     }
 }
 
