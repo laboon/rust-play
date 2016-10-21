@@ -25,7 +25,7 @@ fn sqrt(x: f32) -> f32 {
     let mut mid = val;
     let mut old = -1.0f32;
     let mut midsqr;
-    
+
     while fabs(old - mid) > threshold {
         old = mid;
         mid = (high + low) / 2.0;
@@ -47,7 +47,7 @@ fn sqrt(x: f32) -> f32 {
 // sort in ascending order if asc = true, else descending
 
 fn selection_sort_vec(v: &mut Vec<i32>, asc: bool) {
-    
+
     // if 0 or 1 elements, can just return
     if v.len() < 2 {
         return
@@ -75,7 +75,7 @@ fn selection_sort_vec(v: &mut Vec<i32>, asc: bool) {
                     min_val = i;
                     min_index = k;
                 }
-                
+
             }
         }
         // println!("{} < {} ?", v[min_index], min_val);
@@ -123,7 +123,7 @@ fn main() {
 
     selection_sort_vec(&mut sort_vec, false);
     println!("{:?}", sort_vec);
-    
+
 }
 
 
@@ -161,7 +161,7 @@ fn test_abs_never_negative() {
     // if you would like to re-use them.  However,
     // I find that keeping them in the test block
     // is easiest for understanding.
-    
+
     fn prop_no_neg(x: i32) -> bool {
         abs(x) >= 0
     }
@@ -200,7 +200,7 @@ fn test_fabs_always_same() {
     fn prop_fabs_always_same(x: f32) -> bool {
         fabs(x) == fabs(x)
     }
-    
+
     quickcheck(prop_fabs_always_same as fn(f32) -> bool);
 }
 
@@ -212,7 +212,7 @@ fn test_fabs_idempotent() {
         fabs(x) == fabs(fabs(x))
     }
     quickcheck(prop_fabs_idempotent as fn(f32) -> bool);
-}    
+}
 
 ////////////////////////////////////////////////////////////////
 // sqrt tests
@@ -228,7 +228,7 @@ fn test_sqrt_prop_no_neg() {
         sqrt(x) >= 0.0
     }
 
-    quickcheck(prop_sqrt_no_neg as fn(f32) -> bool);   
+    quickcheck(prop_sqrt_no_neg as fn(f32) -> bool);
 }
 
 // Squaring a square root should get you the
@@ -257,7 +257,7 @@ fn test_sqrt_prop_lte_orig() {
     fn prop_sqrt_lte_orig(x: f32) -> bool {
         sqrt(x) <= fabs(x)
     }
-    
+
     quickcheck(prop_sqrt_lte_orig as fn(f32) -> bool);
 }
 
@@ -282,7 +282,7 @@ fn test_safe_divide_zero_denom() {
     }
     quickcheck(prop_sd_div_0_none as fn(f32) -> bool);
 }
-    
+
 // safe-dividing with any nonzero value as the denominator
 // should return Some value
 
@@ -290,7 +290,7 @@ fn test_safe_divide_zero_denom() {
 // randomly generated pair where y is equal to 0.0.
 // First, note that we are generating TWO different
 // arguments to pass in (this necessitates changing the "as"
-// section to match the function signature).  
+// section to match the function signature).
 
 // Secondly, we need to say that some tests are invalid
 // (any where y == 0).  We can return a TestResult instead of
@@ -309,7 +309,7 @@ fn test_safe_divide_nonzero_denom() {
     fn prop_sd_div_nonzero_some(x: f32, y: f32) -> TestResult {
         if y == 0.0 {
             TestResult::discard()
-        } else {            
+        } else {
             let r = safe_divide(x, y);
             match r {
                 Some(_) => TestResult::from_bool(true),
@@ -317,7 +317,7 @@ fn test_safe_divide_nonzero_denom() {
             }
         }
     }
-    
+
     // we are returning a TestResult here as well
     quickcheck(prop_sd_div_nonzero_some as fn(f32, f32) -> TestResult);
 }
@@ -354,13 +354,13 @@ fn test_selection_sort_asc_last_element() {
 
 #[test]
 fn test_selection_sort_same_num_elements() {
-    
+
     fn prop_same_num_elems(mut v: Vec<i32>) -> bool {
         let orig_num = v.len();
         selection_sort_vec(&mut v, true);
         orig_num == v.len()
     }
-    
+
     quickcheck(prop_same_num_elems as fn(Vec<i32>) -> bool);
 }
 
@@ -375,15 +375,15 @@ fn test_selection_sort_idempotent() {
         let mut once = v.clone();
         let mut twice = once.clone();
         selection_sort_vec(&mut twice, true);
-        
+
         for j in 0..v.len() {
             if once[j] != twice[j] {
                 return false
             }
         }
         true
-        
+
     }
-    
+
     quickcheck(prop_idempotent as fn(Vec<i32>) -> bool);
 }
