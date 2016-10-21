@@ -29,7 +29,7 @@ fn sqrt(x: f32) -> f32 {
     while fabs(old - mid) > threshold {
         old = mid;
         mid = (high + low) / 2.0;
-        midsqr = mid * mid;
+        midsqr = mid.powi(2);
         // print!("{} {} {} {} {} ",
         //          val, low, high, mid, midsqr);
         if midsqr > val {
@@ -235,7 +235,7 @@ fn test_sqrt_prop_squaring() {
 
     fn prop_sqrt_squaring(x: f32) -> bool {
         let rt = sqrt(x);
-        (rt * rt) - fabs(x) < 0.001
+        rt.powi(2) - fabs(x) < 0.001
     }
     quickcheck(prop_sqrt_squaring as fn(f32) -> bool);
 }
