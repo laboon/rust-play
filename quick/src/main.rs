@@ -341,9 +341,8 @@ fn test_selection_sort_asc_last_element() {
 #[test]
 fn test_selection_sort_idempotent() {
 
-    fn prop_idempotent(mut v: Vec<i32>) -> bool {
-        selection_sort_vec(&mut v, true);
-        let once = v.clone();
+    fn prop_idempotent(mut once: Vec<i32>) -> bool {
+        selection_sort_vec(&mut once, true);
         let mut twice = once.clone();
         selection_sort_vec(&mut twice, true);
 
