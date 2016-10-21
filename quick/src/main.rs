@@ -6,21 +6,13 @@ use quickcheck::TestResult;
 // Integer absolute value function
 
 fn abs(x: i32) -> i32 {
-    if x >= 0 {
-        x
-    } else {
-        x * -1
-    }
+    if x >= 0 { x } else { -x }
 }
 
 // Floating-point absolute value function
 
 fn fabs(x: f32) -> f32 {
-    if x >= 0.0 {
-        x
-    } else {
-        x * -1.0
-    }
+    if x >= 0.0 { x } else { x * -1.0 }
 }
 
 // Square root function
@@ -68,18 +60,19 @@ fn selection_sort_vec(mut v: &mut Vec<i32>, asc: bool) {
         // println!("Checking position {}", j);
         min_index = j;
         min_val = v[j];
-        for k in (j+1)..v.len() {
+        for (k, &i) in v.iter().enumerate().skip((j + 1)) {
+        // for k in (j+1)..v.len() {
             // println!("\t{} - Comparing {} & {}", k, min_val, a[k]);
             if asc {
-                if v[k] < min_val {
+                if i < min_val {
                     // println!("\tSetting min_val to {}", a[k]);
-                    min_val = v[k];
+                    min_val = i;
                     min_index = k;
                 }
             } else {
                 if v[k] > min_val {
                     // println!("\tSetting min_val to {}", a[k]);
-                    min_val = v[k];
+                    min_val = i;
                     min_index = k;
                 }
                 
@@ -87,19 +80,8 @@ fn selection_sort_vec(mut v: &mut Vec<i32>, asc: bool) {
         }
         // println!("{} < {} ?", v[min_index], min_val);
         // println!("Swapping locs {} & {}", j, min_index);
-        swap_vec(&mut v, j, min_index)
+        v.swap(j, min_index);
 
-    }
-}
-
-// Swap function - given a vector v and two locations (p1 & p2),
-// will swap the values in v[p1] and v[p2]
-
-fn swap_vec(v: &mut Vec<i32>, p1: usize, p2: usize) {
-    if p1 != p2 {
-        let tmp: i32 = v[p1];
-        v[p1] = v[p2];
-        v[p2] = tmp;
     }
 }
 
@@ -119,6 +101,14 @@ fn safe_divide(n: f32, d: f32) -> Option<f32> {
 //////////////////////////////////////////////////////////////////
 
 fn main() {
+
+    let d: Option<f32> = safe_divide(7.0, 22.0);
+    match d {
+        Some(n) => println!("Finite number {}", n),
+        None    => println!("INFINITY"),
+    }
+    let q: i32 = abs(-7);
+    println!("q is {}", q);
     let xs: [f32; 10] = [1.0, 2.0, 3.0, 4.0, 5.0,
     6.0, 7.0, 8.0, 9.0, 10.0];
     let mut res: f32;
