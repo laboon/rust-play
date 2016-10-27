@@ -12,7 +12,7 @@ fn abs(x: i32) -> i32 {
 // Floating-point absolute value function
 
 fn fabs(x: f32) -> f32 {
-    if x >= 0.0 { x } else { x * -1.0 }
+    if x >= 0.0 { x } else { -x }
 }
 
 // Square root function
@@ -96,12 +96,30 @@ fn safe_divide(n: f32, d: f32) -> Option<f32> {
     }
 }
 
+fn laboon(v: Vec<i32>) -> Vec<i32> {
+    let mut to_ret = Vec::new();
+    let mut ctr = 0;
+    for j in v {
+        let s = j * j; 
+        ctr += s;
+        to_ret.push(s);
+    }
+    to_ret.push(ctr);
+    to_ret
+}
+
+
 //////////////////////////////////////////////////////////////////
 // Boring main function which runs through a few functions
 //////////////////////////////////////////////////////////////////
 
 fn main() {
 
+    let mut tbl: Vec<i32> = vec![1,2,3];
+    tbl = laboon(tbl);
+    println!("tbl = {:?}", tbl);
+    // panic!(0);
+    
     let d: Option<f32> = safe_divide(7.0, 22.0);
     match d {
         Some(n) => println!("Finite number {}", n),
@@ -125,6 +143,21 @@ fn main() {
     println!("{:?}", sort_vec);
     
 }
+
+// #[test]
+// fn test_laboon_len_plus_one() {
+//     fn prop_no_neg(x: i32) -> bool {
+//         abs(x) >= 0
+//     }
+
+//     // Now run with many random i32 values and check
+//     // that the property holds true (i.e., the function
+//     // prop_no_neg returns true) for all of them.
+//     // If not, the test will fail.
+
+//     // Note that you need to have the "as" section
+//     quickcheck(prop_no_neg as fn(i32) -> bool);    
+// }
 
 
 
@@ -372,7 +405,7 @@ fn test_selection_sort_idempotent() {
 
     fn prop_idempotent(mut v: Vec<i32>) -> bool {
         selection_sort_vec(&mut v, true);
-        let mut once = v.clone();
+        let once = v.clone();
         let mut twice = once.clone();
         selection_sort_vec(&mut twice, true);
         
